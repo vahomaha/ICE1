@@ -1,63 +1,62 @@
-package exercise1;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package cardgame;
 
-public class CardTrick {
-  public static void main(String[] args) {
-    int[] deck = new int[52];
-    String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
-    String[] ranks = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9",
-      "10", "Jack", "Queen", "King"};
+import cardgame.Card.Suit;
+import cardgame.Card.Value;
+import java.util.*;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Bhavy
+ */
+public class CardGame {
+
+     public static void main(String[] args) {
+        // TODO code application logic here
+        Scanner input = new Scanner(System.in);
         
-    // Initialize cards
-    for (int i = 0; i < deck.length; i++)
-      deck[i] = i;
-    
-    // Shuffle the cards
-    for (int i = 0; i < deck.length; i++) {
-      // Generate an index randomly
-      int index = (int)(Math.random() * deck.length);
-      int temp = deck[i];
-      deck[i] = deck[index]; 
-      deck[index] = temp;
-    }
-
-    // Display the first four cards
-    for (int i = 0; i < 4; i++) {
-      String suit = suits[deck[i] / 13];
-      String rank = ranks[deck[i] % 13];
-      System.out.println("Card number " + deck[i] + ": " 
-        + rank + " of " + suit);
-    }
-  }
-}
-
-    /**
-     * A simple method to print out personal information. Follow the instructions to 
-     * replace this information with your own.
-     * @author Paul Bonenfant Jan 2022
-     */
-//I am done
-    private static void printInfo() {
-    
-        System.out.println("Congratulations, you guessed right!");
-        System.out.println();
+        Card[] hand = new Card[7];
+        Random random = new Random();
         
-        System.out.println("My name is Mahammad Saad, but you can call me Saad");
-        System.out.println();
+        for(int i =0 ; i <hand.length;i++){
+            Value value = Card.Value.values()[random.nextInt(13)];
+            Suit suit =Card.Suit.values()[random.nextInt(4)];
+            Card card = new Card(value,suit);
+            hand[i]=card;
+        }//end of for
         
-        System.out.println("My career ambitions:" );
-        System.out.println("-- Being a good programmer");
-        System.out.println("-- Have a semester with no violations of academic integrity!");
-	System.out.println();	
-
-        System.out.println("My hobbies:");
-        System.out.println("-- Watching web series");
-        System.out.println("-- Cooking");
-        System.out.println("-- Learning new things");
-        System.out.println("-- hanging out with friends");
-
-        System.out.println();
+        System.out.print("here are the cards in the hand");
+        for(Card card:hand){
+            System.out.println(card.getValue() +" "+card.getSuit());
+        }
         
-    
-    }
-
+        //Now ask user for a card
+        System.out.print("Pick a suit for your guess card");
+        for(int i =0 ; i <Card.Suit.values().length;i++){
+            System.out.println(Card.Suit.values()[i]);            
+        }
+        int suitpos = input.nextInt();
+        System.out.print("Pick a value for your guess card");
+        int valuepos= input.nextInt();
+        
+        Card userGuess = new Card(Card.Value.values()[valuepos],Card.Suit.values()[suitpos]);
+        
+        //now check for a match
+        boolean match = false;
+        for(Card card:hand){
+            if(card.getValue() == userGuess.getValue()
+                && card.getSuit().equals(userGuess.getSuit())){
+             match =true;
+             break;
+            }//end of if                        
+        }//end of for
+        if(match)
+            System.out.println("your guess is right");
+        
+    }
+    
 }
